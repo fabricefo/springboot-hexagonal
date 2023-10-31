@@ -1,5 +1,7 @@
 package com.fabricefo.hexagonal.infrastructure.adapters.input.rest.data;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fabricefo.hexagonal.application.ports.input.CreateTodoUseCase;
 import com.fabricefo.hexagonal.application.ports.input.GetTodoUseCase;
+import com.fabricefo.hexagonal.application.ports.input.GetTodosUseCase;
 import com.fabricefo.hexagonal.domain.model.Todo;
 import com.fabricefo.hexagonal.infrastructure.adapters.input.rest.data.request.TodoRequest;
 import com.fabricefo.hexagonal.infrastructure.adapters.input.rest.data.response.TodoResponse;
@@ -25,6 +28,7 @@ public class TodoRestAdapter {
     
     private final CreateTodoUseCase createTodoUseCase;
     private final GetTodoUseCase getTodoUseCase;
+    private final GetTodosUseCase getTodosUseCase;
     private final ModelMapper mapper;
 
     @PostMapping(value="/todos")
@@ -43,5 +47,11 @@ public class TodoRestAdapter {
         return new ResponseEntity<>(mapper.map(todo, TodoResponse.class), HttpStatus.OK);
     }
     
+    @GetMapping(value="/todoslist")
+    public ResponseEntity<TodoResponse> getTodos(){
+        List<Todo> todos = getTodosUseCase.getTodos();
+        System.out.println(todos);
+        return new ResponseEntity<>(mapper.map(todos, TodoResponse.class), HttpStatus.OK);
+    }
 
 }

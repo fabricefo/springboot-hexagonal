@@ -1,6 +1,7 @@
 package com.fabricefo.hexagonal.infrastructure.adapters.output.persistence;
 
 import java.util.Optional;
+import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,6 +33,13 @@ public class TodoPersistenceAdapter implements TodoOutputPort {
 
         Todo todo = todoMapper.toTodo(todoEntity.get());
         return Optional.of(todo);
+    }
+
+    @Override
+    public List<Todo> getTodos() {
+        List<TodoEntity> todosEntities = todoRepository.findAll();
+        List<Todo> todos = todoMapper.toTodos(todosEntities);
+        return todos;
     }
        
 }
