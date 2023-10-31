@@ -1,5 +1,6 @@
 package com.fabricefo.hexagonal.infrastructure.adapters.input.rest.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -48,12 +49,16 @@ public class TodoRestAdapter {
     }
     
     @GetMapping(value="/todoslist")
-    public ResponseEntity<TodoResponse> getTodos(){
+    public ResponseEntity<List<TodoResponse>> getTodos(){
+
         List<Todo> todos = getTodosUseCase.getTodos();
+        List<TodoResponse> responses = new ArrayList<TodoResponse>();
+        todos.forEach(todo -> 
+            responses.add(mapper.map(todo, TodoResponse.class)));
+
         todos.forEach(todo -> 
             System.out.println(todo));
-        
-        return new ResponseEntity<>(mapper.map(todos, TodoResponse.class), HttpStatus.OK);
-    }
 
+        return new ResponseEntity<>(responses, HttpStatus.OK);
+    }
 }
