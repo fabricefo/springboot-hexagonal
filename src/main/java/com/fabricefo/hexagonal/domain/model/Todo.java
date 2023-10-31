@@ -19,4 +19,8 @@ public class Todo {
 
     private String description;
 
+    @Override
+    public String toString() {
+        return "Todo [id=\" + id + \", title=\" + title + \", desc=\" + description + \"]";
+    }    
 }

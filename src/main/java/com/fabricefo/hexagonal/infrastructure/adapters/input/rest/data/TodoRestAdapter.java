@@ -50,7 +50,9 @@ public class TodoRestAdapter {
     @GetMapping(value="/todoslist")
     public ResponseEntity<TodoResponse> getTodos(){
         List<Todo> todos = getTodosUseCase.getTodos();
-        System.out.println(todos);
+        todos.forEach(todo -> 
+            System.out.println(todo));
+        
         return new ResponseEntity<>(mapper.map(todos, TodoResponse.class), HttpStatus.OK);
     }
 
